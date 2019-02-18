@@ -31,7 +31,7 @@ public class CircularSuffixArray {
     public static void main(String[] args) {
         String word = args[0];
         CircularSuffixArray circularSuffixArray = new CircularSuffixArray(word);
-        for (Suffix suffix: circularSuffixArray.suffixes) {
+        for (Suffix suffix : circularSuffixArray.suffixes) {
             StdOut.println(suffix);
         }
         StdOut.println("length: " + circularSuffixArray.length());
