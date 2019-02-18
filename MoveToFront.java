@@ -1,9 +1,6 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -29,7 +26,7 @@ public class MoveToFront {
 
         Bag sequence = new Bag();
         for (Character ch : r) {
-            char code = (char) sequence.add(ch);
+            char code = sequence.add((int) ch);
             BinaryStdOut.write(code);
         }
         BinaryStdOut.flush();
@@ -40,20 +37,9 @@ public class MoveToFront {
     public static void main(String[] args) {
         if (args.length != 1 || args[0].length() > 1) throw new IllegalArgumentException();
 
-        boolean isEncoding;
-        if (args[0].charAt(0) == '-') isEncoding = true;
-        else if (args[0].charAt(0) == '+') isEncoding = false;
+        if (args[0].charAt(0) == '-') MoveToFront.encode();
+        else if (args[0].charAt(0) == '+') MoveToFront.decode();
         else throw new IllegalArgumentException();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                if (isEncoding) MoveToFront.encode();
-                else MoveToFront.decode();
-            }
-        } catch (IOException e) {
-            System.out.println("Error while closing stream: " + e);
-        }
     }
 
     private static class Reader implements Iterable<Character> {
@@ -83,20 +69,18 @@ public class MoveToFront {
 
         boolean[] inserted = new boolean[R];
         private Node first;    // beginning of bag
-        private int n;               // number of elements in bag
 
         // helper linked list class
         private static class Node {
-            private char item;
+            private char letter;
             private Node next;
         }
 
         /**
          * Initializes an empty bag.
          */
-        public Bag() {
+        Bag() {
             first = null;
-            n = 0;
         }
 
         /**
@@ -110,41 +94,61 @@ public class MoveToFront {
         }
 
         /**
-         * Returns the number of items in this bag.
+         * Adds the letter to this bag.
          *
-         * @return the number of items in this bag
+         * @param letter the letter to add to this bag
          */
-        public int size() {
-            return n;
-        }
-
-        /**
-         * Adds the item to this bag.
-         *
-         * @param item the item to add to this bag
-         */
-        public int add(char item) {
+        int add(char letter) {
             int index = 0;
-            if (inserted[item]) {
+            if (inserted[letter]) {
                 Iterator<Character> it = iterator();
                 while (it.hasNext()) {
                     char ch = it.next();
-                    if (ch == item) {
+                    if (ch == letter) {
                         it.remove();
-                        index++;
                         break;
                     }
+                    index++;
                 }
             } else {
-                index = item;
+                index = letter;
             }
-            inserted[item] = true;
+            inserted[letter] = true;
             first = new Node();
             Node oldFirst = first;
-            first.item = item;
+            first.letter = letter;
             first.next = oldFirst;
-            n++;
             return index;
+        }
+
+        /**
+         * Adds the letter to this bag.
+         *
+         * @param index the letter to add to this bag
+         */
+        char add(int index) {
+            char character = 0;
+            if (inserted[index]) {
+                Iterator<Character> it = iterator();
+                int i = 0;
+                while (it.hasNext()) {
+                    char ch = it.next();
+                    if (i == index) {
+                        it.remove();
+                        character = ch;
+                        break;
+                    }
+                    i++;
+                }
+            } else {
+                character = (char) index;
+            }
+            inserted[index] = true;
+            first = new Node();
+            Node oldFirst = first;
+            first.letter = character;
+            first.next = oldFirst;
+            return character;
         }
 
 
@@ -174,13 +178,12 @@ public class MoveToFront {
             public void remove() {
                 Node oldCurrent = current;
                 current = oldCurrent.next;
-                n--;
             }
 
             @Override
             public Character next() {
                 if (!hasNext()) throw new NoSuchElementException();
-                char item = current.item;
+                char item = current.letter;
                 current = current.next;
                 return item;
             }
