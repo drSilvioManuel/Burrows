@@ -13,10 +13,12 @@ public class MoveToFront {
 
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
-        Reader r = new Reader();
         Bag sequence = new Bag();
-        for (Character ch : r) {
+
+        while (!BinaryStdIn.isEmpty()) {
+            Character ch = BinaryStdIn.readChar();
             int code = sequence.add(ch);
+
             BinaryStdOut.write((char) (code & 0xff));
         }
         BinaryStdOut.flush();
@@ -24,11 +26,12 @@ public class MoveToFront {
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        Reader r = new Reader();
-
         Bag sequence = new Bag();
-        for (Character ch : r) {
+
+        while (!BinaryStdIn.isEmpty()) {
+            Character ch = BinaryStdIn.readChar();
             char code = sequence.add(ch & 0xff);
+
             BinaryStdOut.write((char) (code & 0xff));
         }
         BinaryStdOut.flush();
@@ -77,27 +80,6 @@ public class MoveToFront {
             }
         }
         else throw new IllegalArgumentException();
-    }
-
-    private static class Reader implements Iterable<Character> {
-
-        @Override
-        public Iterator<Character> iterator() {
-            return new ReaderIterator();
-        }
-    }
-
-    private static class ReaderIterator implements Iterator<Character> {
-
-        @Override
-        public boolean hasNext() {
-            return !BinaryStdIn.isEmpty();
-        }
-
-        @Override
-        public Character next() {
-            return BinaryStdIn.readChar();
-        }
     }
 
 

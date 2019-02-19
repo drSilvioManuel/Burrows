@@ -18,7 +18,7 @@ public class CircularSuffixArray {
 
         for (int i = 0; i < cntChars; i++) suffixes[i] = new Suffix(i);
 
-        sort();
+        sortLsd();
     }
 
     // length of s
@@ -45,7 +45,7 @@ public class CircularSuffixArray {
         }
     }
 
-    private void sort() {
+    private void sortLsd() {
         Suffix[] aux = new Suffix[suffixes.length];
         for (int ch = cntChars - 1; ch >= 0; ch--) {
             int[] cnt = new int[R + 1];
