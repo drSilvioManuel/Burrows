@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class CircularSuffixArray {
 
     private final int R = 256;
-    private final char[] origin;
+    private final String origin;
     private final int cntChars;
     private final Suffix[] suffixes;
 
@@ -12,7 +12,7 @@ public class CircularSuffixArray {
     public CircularSuffixArray(String s) {
         if (null == s) throw new IllegalArgumentException("Accepted string cannot be null");
 
-        origin = s.toCharArray();
+        origin = s;
         cntChars = s.length();
         suffixes = new Suffix[cntChars];
 
@@ -74,7 +74,7 @@ public class CircularSuffixArray {
             int j = pointer < cntChars
                     ? pointer
                     : pointer - cntChars;
-            return origin[j];
+            return origin.charAt(j);
         }
 
         @Override
