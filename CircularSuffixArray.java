@@ -10,10 +10,14 @@ public class CircularSuffixArray {
 
     // circular suffix array of s
     public CircularSuffixArray(String s) {
+        if (null == s) throw new IllegalArgumentException("Accepted string cannot be null");
+
         origin = s.toCharArray();
         cntChars = s.length();
         suffixes = new Suffix[cntChars];
+
         for (int i = 0; i < cntChars; i++) suffixes[i] = new Suffix(i);
+
         sort();
     }
 
@@ -24,6 +28,7 @@ public class CircularSuffixArray {
 
     // returns index of ith sorted suffix
     public int index(int i) {
+        if (i < 0 || i >= cntChars) throw new IllegalArgumentException("Wrong index");
         return suffixes[i].shift;
     }
 
@@ -54,6 +59,7 @@ public class CircularSuffixArray {
             System.arraycopy(aux, 0, suffixes, 0, suffixes.length);
         }
     }
+
 
     private class Suffix {
 

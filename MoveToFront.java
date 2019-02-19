@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+
 public class MoveToFront {
 
     private final static int R = 256;
@@ -26,9 +27,7 @@ public class MoveToFront {
         Reader r = new Reader();
 
         Bag sequence = new Bag();
-        StringBuilder sb = new StringBuilder();
         for (Character ch : r) {
-            sb.append(ch);
             char code = sequence.add(ch & 0xff);
             BinaryStdOut.write((char) (code & 0xff));
         }
@@ -43,7 +42,6 @@ public class MoveToFront {
         if (args[0].charAt(0) == '-') MoveToFront.encode();
         else if (args[0].charAt(0) == '+') MoveToFront.decode();
         else if (args[0].charAt(0) == 'e') {
-
             try {
                 FileInputStream is = new FileInputStream(new File("__burrows/abra.txt"));
                 File f = new File("__burrows/encoded_abra.txt");
@@ -57,7 +55,8 @@ public class MoveToFront {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (args[0].charAt(0) == 'h') {
+        }
+        else if (args[0].charAt(0) == 'h') {
             try {
                 FileInputStream is = new FileInputStream(new File("__burrows/encoded_abra.txt"));
                 System.setIn(is);
@@ -66,7 +65,8 @@ public class MoveToFront {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (args[0].charAt(0) == 'd') {
+        }
+        else if (args[0].charAt(0) == 'd') {
             try {
                 FileInputStream is = new FileInputStream(new File("__burrows/encoded_abra.txt"));
                 System.setIn(is);
@@ -75,7 +75,8 @@ public class MoveToFront {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else throw new IllegalArgumentException();
+        }
+        else throw new IllegalArgumentException();
     }
 
     private static class Reader implements Iterable<Character> {
@@ -102,10 +103,9 @@ public class MoveToFront {
 
     private static class Bag implements Iterable<Character> {
 
-
         boolean[] inserted = new boolean[R];
-        private Node first;    // beginning of bag
-        private int n;               // number of elements in bag
+        private Node first; // beginning of bag
+        private int n; // number of elements in bag
 
         // helper linked list class
         private static class Node {
@@ -210,7 +210,6 @@ public class MoveToFront {
             return character;
         }
 
-
         /**
          * Returns an iterator that iterates over the items in this bag in arbitrary order.
          *
@@ -220,7 +219,7 @@ public class MoveToFront {
             return new ListIterator(first);
         }
 
-        // an iterator, doesn't implement remove() since it's optional
+
         private class ListIterator implements Iterator<Character> {
             private Node current;
             private Node forRemoving;
