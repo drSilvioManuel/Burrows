@@ -1,10 +1,9 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
-import edu.princeton.cs.algs4.HexDump;
 import edu.princeton.cs.algs4.Queue;
 
-import java.io.*;
 import java.util.HashMap;
+
 
 public class BurrowsWheeler {
 
@@ -12,7 +11,7 @@ public class BurrowsWheeler {
     public static void transform() {
         StringBuilder input = new StringBuilder();
         while (!BinaryStdIn.isEmpty()) {
-            Character ch = BinaryStdIn.readChar();
+            char ch = BinaryStdIn.readChar();
             input.append(ch);
         }
         CircularSuffixArray csa = new CircularSuffixArray(input.toString());
@@ -46,7 +45,7 @@ public class BurrowsWheeler {
                 first = BinaryStdIn.readInt();
                 continue;
             }
-            Character ch = BinaryStdIn.readChar();
+            char ch = BinaryStdIn.readChar();
             input.append(ch);
             if (!map.containsKey(ch)) {
                 map.put(ch, new Queue<>());
@@ -95,41 +94,6 @@ public class BurrowsWheeler {
 
         if (args[0].charAt(0) == '-') BurrowsWheeler.transform();
         else if (args[0].charAt(0) == '+') BurrowsWheeler.inverseTransform();
-        else if (args[0].charAt(0) == 'e') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/abra.txt"));
-                File f = new File("__burrows/transformed_abra.txt");
-                f.createNewFile();
-                PrintStream os = new PrintStream(new FileOutputStream(f));
-                System.setIn(is);
-                System.setOut(os);
-                BurrowsWheeler.transform();
-                is.close();
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (args[0].charAt(0) == 'h') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/transformed_abra.txt"));
-                System.setIn(is);
-                HexDump.main(new String[]{"16"});
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (args[0].charAt(0) == 'd') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/transformed_abra.txt"));
-                System.setIn(is);
-                BurrowsWheeler.inverseTransform();
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         else throw new IllegalArgumentException();
     }
 }

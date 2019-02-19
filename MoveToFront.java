@@ -1,22 +1,18 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
-import edu.princeton.cs.algs4.HexDump;
 
-import java.io.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
 public class MoveToFront {
 
-    private final static int R = 256;
-
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
         Bag sequence = new Bag();
 
         while (!BinaryStdIn.isEmpty()) {
-            Character ch = BinaryStdIn.readChar();
+            char ch = BinaryStdIn.readChar();
             int code = sequence.add(ch);
 
             BinaryStdOut.write((char) (code & 0xff));
@@ -29,7 +25,7 @@ public class MoveToFront {
         Bag sequence = new Bag();
 
         while (!BinaryStdIn.isEmpty()) {
-            Character ch = BinaryStdIn.readChar();
+            char ch = BinaryStdIn.readChar();
             char code = sequence.add(ch & 0xff);
 
             BinaryStdOut.write((char) (code & 0xff));
@@ -44,46 +40,13 @@ public class MoveToFront {
 
         if (args[0].charAt(0) == '-') MoveToFront.encode();
         else if (args[0].charAt(0) == '+') MoveToFront.decode();
-        else if (args[0].charAt(0) == 'e') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/abra.txt"));
-                File f = new File("__burrows/encoded_abra.txt");
-                f.createNewFile();
-                PrintStream os = new PrintStream(new FileOutputStream(f));
-                System.setIn(is);
-                System.setOut(os);
-                MoveToFront.encode();
-                is.close();
-                os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (args[0].charAt(0) == 'h') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/encoded_abra.txt"));
-                System.setIn(is);
-                HexDump.main(new String[]{"16"});
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (args[0].charAt(0) == 'd') {
-            try {
-                FileInputStream is = new FileInputStream(new File("__burrows/encoded_abra.txt"));
-                System.setIn(is);
-                MoveToFront.decode();
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         else throw new IllegalArgumentException();
     }
 
 
     private static class Bag implements Iterable<Character> {
+
+        private final int R = 256;
 
         boolean[] inserted = new boolean[R];
         private Node first; // beginning of bag

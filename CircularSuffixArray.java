@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class CircularSuffixArray {
 
-    private final static int R = 256;
+    private final int R = 256;
     private final char[] origin;
     private final int cntChars;
     private final Suffix[] suffixes;
@@ -64,11 +64,9 @@ public class CircularSuffixArray {
     private class Suffix {
 
         final int shift;
-        int index;
 
         Suffix(int s) {
             shift = s;
-            index = 0;
         }
 
         char charAt(int i) {
