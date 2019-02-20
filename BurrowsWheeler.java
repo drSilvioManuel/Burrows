@@ -36,9 +36,9 @@ public class BurrowsWheeler {
 
     // apply Burrows-Wheeler inverse transform, reading from standard input and writing to standard output
     public static void inverseTransform() {
-        int first = -1;
         StringBuilder input = new StringBuilder();
         HashMap<Character, Queue<Integer>> map = new HashMap<>();
+        int first = -1;
         int row = 0;
         while (!BinaryStdIn.isEmpty()) {
             if (-1 == first) {
@@ -47,9 +47,7 @@ public class BurrowsWheeler {
             }
             char ch = BinaryStdIn.readChar();
             input.append(ch);
-            if (!map.containsKey(ch)) {
-                map.put(ch, new Queue<>());
-            }
+            map.putIfAbsent(ch, new Queue<>());
             map.get(ch).enqueue(row);
             row++;
         }
