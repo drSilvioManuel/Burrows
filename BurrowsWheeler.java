@@ -2,7 +2,9 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class BurrowsWheeler {
@@ -36,7 +38,7 @@ public class BurrowsWheeler {
 
     // apply Burrows-Wheeler inverse transform, reading from standard input and writing to standard output
     public static void inverseTransform() {
-        StringBuilder input = new StringBuilder();
+        List<Character> input = new ArrayList<>();
         HashMap<Character, Queue<Integer>> map = new HashMap<>();
         int first = -1;
         int row = 0;
@@ -46,23 +48,23 @@ public class BurrowsWheeler {
                 continue;
             }
             char ch = BinaryStdIn.readChar();
-            input.append(ch);
+            input.add(ch);
             map.putIfAbsent(ch, new Queue<>());
             map.get(ch).enqueue(row);
             row++;
         }
 
-        int cntChars = input.length();
+        int cntChars = input.size();
         int[] next = new int[cntChars];
-        char[] sorted = sortLsd(input);
+        input.sort(Character::compareTo);
 
         for (int i = 0; i < cntChars; i++) {
-            char charAtSorted = sorted[i];
+            char charAtSorted = input.get(i);
             next[i] = map.get(charAtSorted).dequeue();
         }
         row = 0;
         while (row < cntChars) {
-            char ch = sorted[first];
+            char ch = input.get(first);
             BinaryStdOut.write((char) (ch & 0xff));
             first = next[first];
             row++;
